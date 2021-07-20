@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams, NavLink } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
  
 export default function Movie(props) {
   const [movie, setMovie] = useState();
+ console.log(props)
  
-  const { id } = useParams()
-  console.log(id)
+const { id } = useParams()
+
+
+  // id  = movies.find(item => item.id === id)
+
+  // console.log(id)
   // const { url } = useRouteMatch()
   // Change ^^^ that line and use a hook to obtain the :id parameter from the URL
  
@@ -16,18 +21,19 @@ export default function Movie(props) {
       .then(response => {
         // Study this response with a breakpoint or log statements
         // and set the response data as the 'movie' slice of state
-        setMovie(response.id)
+        setMovie(response.data)
       })
       .catch(error => {
         console.error(error);
       });
     // This effect should run every time time
     // the `id` changes... How could we do this?
-  }, [`http://localhost:5000/api/movies/${id}`]);
+  }, [id]);
  
   // Uncomment this only when you have moved on to the stretch goals
   // const saveMovie = evt => { }
- 
+  
+
   if (!movie) {
     return <div>Loading movie information...</div>;
   }
@@ -36,7 +42,7 @@ export default function Movie(props) {
  
   return (
     <div className="save-wrapper">
-     <NavLink to={`movies/${id}`}>
+     {/* <NavLink to={`movies/${id}`}> */}
       <div className="movie-card">
      
         <h2>{title}</h2>
@@ -54,9 +60,10 @@ export default function Movie(props) {
           </div>
         ))}
       </div>
-      </NavLink>
+      
       <div className="save-button">Save</div>
     </div>
   );
 }
  
+
